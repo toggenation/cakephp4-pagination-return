@@ -15,7 +15,7 @@ docker-compose up
 ```
 
 ### Video Timings
-I put a video of this up on Youtube 
+I put a video of this up on Youtube [https://youtu.be/uoOb6u3_NU8](https://youtu.be/uoOb6u3_NU8)
 
 00:00 Intro  
 00:24 Install Remote - SSH VSCode extension  
