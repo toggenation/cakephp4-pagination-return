@@ -4,12 +4,6 @@
     "homepage": "https://cakephp.org",
     "type": "project",
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/toggenation/PluginLister"
-        }
-    ],
     "require": {
         "php": ">=7.4",
         "cakedc/users": "^11.1",
@@ -27,8 +21,7 @@
         "cakephp/debug_kit": "^4.5",
         "dereuromark/cakephp-ide-helper": "^1.18",
         "josegonzalez/dotenv": "^3.2",
-        "phpunit/phpunit": "~8.5.0 || ^9.3",
-        "toggenation/plugin-lister": "dev-master"
+        "phpunit/phpunit": "~8.5.0 || ^9.3"
     },
     "suggest": {
         "markstory/asset_compress": "An asset compression plugin which provides file concatenation and a flexible filter system for preprocessing and minification.",
@@ -58,7 +51,7 @@
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
         "test": "phpunit --colors=always",
-        "plugins": "PluginLister\\Utility\\Plugins::get",
+        "plugins": "App\\Service\\Plugins::get",
         "deploy": "composer dump-autoload -o && bin/cake plugin assets symlink && bin/cake schema_cache clear"
     },
     "prefer-stable": true,

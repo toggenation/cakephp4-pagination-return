@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use Cake\Core\Configure;
@@ -64,6 +66,7 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+        $this->addPlugin('CakeDC/Users');
     }
 
     /**
@@ -126,11 +129,15 @@ class Application extends BaseApplication
      */
     protected function bootstrapCli(): void
     {
-        $this->addOptionalPlugin('Cake/Repl');
-        $this->addOptionalPlugin('Bake');
-
-        $this->addPlugin('Migrations');
-
         // Load more plugins here
+        try {
+            $this->addPlugin('IdeHelper');
+            // $this->addPlugin('PluginLister');
+            $this->addOptionalPlugin('Cake/Repl');
+            $this->addOptionalPlugin('Bake');
+            $this->addPlugin('Migrations');
+        } catch (\Throwable $e) {
+            # code...
+        }
     }
 }
