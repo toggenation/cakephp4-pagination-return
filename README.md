@@ -52,5 +52,8 @@ Role: superuser
 Password: 1234
 
 ```
+Goto `http://localhost:${FORWARD_NGINX_PORT}/login`
 
-Login and goto [http://localhost:${FORWARD_NGINX_PORT}/Posts](http://localhost:${FORWARD_NGINX_PORT}/Posts)
+Login as the user created above `admin` / `1234`
+
+Goto `http://localhost:${FORWARD_NGINX_PORT}/Posts`
