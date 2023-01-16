@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -20,9 +21,16 @@ class PostsController extends AppController
      */
     public function index()
     {
+        // $this->paginate = ['limit' => 3];
+
         $posts = $this->paginate($this->Posts);
 
-        $this->set(compact('posts'));
+        $limit = $this->request->getQuery('limit');
+        // ?? $this->paginate['limit'];
+        $page = $this->request->getQuery('page');
+
+
+        $this->set(compact('posts', 'limit', 'page'));
     }
 
     /**
@@ -77,12 +85,22 @@ class PostsController extends AppController
         $post = $this->Posts->get($id, [
             'contain' => [],
         ]);
+        $page = $this->request->getQuery('page');
+
+        $limit = $this->request->getQuery('limit');
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $post = $this->Posts->patchEntity($post, $this->request->getData());
             if ($this->Posts->save($post)) {
                 $this->Flash->success(__('The post has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $redirect = ['action' => 'index'];
+                if ($page) {
+                    $redirect['?']['page'] = $page;
+                }
+                if ($limit) {
+                    $redirect['?']['limit'] = $limit;
+                }
+                return $this->redirect($redirect);
             }
             $this->Flash->error(__('The post could not be saved. Please, try again.'));
         }
@@ -99,13 +117,40 @@ class PostsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
+
         $post = $this->Posts->get($id);
+
+        $page = $this->request->getData('page');
+
+        $limit = $this->request->getData('limit');
+
         if ($this->Posts->delete($post)) {
             $this->Flash->success(__('The post has been deleted.'));
         } else {
             $this->Flash->error(__('The post could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        $paginationOptions = [];
+
+        $redirect = ['action' => 'index'];
+
+        if ($limit) {
+            $paginationOptions += ['limit' => $limit];
+            $redirect['?']['limit'] = $limit;
+        }
+
+        $posts = $this->paginate($this->Posts, $paginationOptions);
+
+        $paging = $this->request->getAttribute('paging');
+
+        if ($page > $paging['Posts']['pageCount']) {
+            $page = $paging['Posts']['pageCount'];
+        }
+
+        if ($page) {
+            $redirect['?']['page'] = $page;
+        }
+
+        return $this->redirect($redirect);
     }
 }
