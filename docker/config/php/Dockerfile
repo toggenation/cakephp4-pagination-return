@@ -42,3 +42,5 @@ RUN docker-php-ext-install zip
 
 RUN apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/src
 
+COPY composer_install.sh /
+RUN chmod +x /composer_install.sh && /composer_install.sh && rm /composer_install.sh
